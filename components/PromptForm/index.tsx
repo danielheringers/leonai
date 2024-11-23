@@ -78,21 +78,24 @@ export function PromptForm() {
   };
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-full">
+      <h1 className="text-3xl font-bold border-b pb-1 mb-2">Prompt</h1>
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => (
           <Card
             key={message.id}
             className={cn(
-              "p-4 max-w-[80%]",
+              "p-4 max-w-fit break-words",
               message.isUser
                 ? "ml-auto bg-primary text-primary-foreground"
                 : "bg-muted"
             )}
           >
-            <p className="whitespace-pre-wrap">{message.content}</p>
+            <p className="whitespace-pre-wrap max-w-[65ch]">
+              {message.content}
+            </p>
             {!message.isUser && (
-              <div className="flex items-center gap-2 mt-2">
+              <div className="flex flex-wrap items-center gap-2 mt-2">
                 <Button
                   variant="ghost"
                   size="sm"
@@ -109,7 +112,7 @@ export function PromptForm() {
                   <RotateCcw className="h-4 w-4 mr-1" />
                   Tentar Novamente
                 </Button>
-                <div className="ml-auto flex gap-2">
+                <div className="flex gap-2 ml-auto mt-2 sm:mt-0">
                   <Button variant="ghost" size="sm">
                     <ThumbsUp className="h-4 w-4" />
                   </Button>

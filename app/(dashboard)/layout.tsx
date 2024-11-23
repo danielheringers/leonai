@@ -1,12 +1,7 @@
+import { MobileMenu } from "@/components/MobileMenu";
 import { Sidebar } from "@/components/Sidebar";
-import { Metadata } from "next";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-
-export const metadata: Metadata = {
-  title: "LeonAI",
-  description: "Sua plataforma inteligente de assistência",
-};
 
 export default async function DashboardLayout({
   children,
@@ -21,8 +16,14 @@ export default async function DashboardLayout({
 
   return (
     <div className="flex h-screen">
-      <Sidebar />
-      <main className="flex-1 overflow-y-auto p-8">{children}</main>
+      <Sidebar className="hidden md:flex" />
+      <div className="flex flex-col flex-1 overflow-hidden">
+        <header className="flex items-center p-4 border-b md:hidden">
+          <MobileMenu />
+          <h1 className="text-xl font-semibold ml-4">Dashboard</h1>
+        </header>
+        <main className="flex-1 overflow-y-auto md:p-4">{children}</main>
+      </div>
     </div>
   );
 }

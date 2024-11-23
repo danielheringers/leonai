@@ -9,11 +9,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 import { Home, LogOut, MessageSquare, Settings } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { DarkToggle } from "../DarkModeInsiderToggle";
 
 const sidebarItems = [
   { name: "Home", href: "/dashboard", icon: Home },
@@ -21,23 +21,28 @@ const sidebarItems = [
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
-export function Sidebar() {
+interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export function Sidebar({ className, ...props }: SidebarProps) {
   const pathname = usePathname();
   const { data: session } = useSession();
 
   return (
-    <div className="hidden border-r bg-sidebar-background lg:block dark:bg-sidebar-background">
+    <div
+      className={cn(
+        "border-r bg-sidebar-background dark:bg-sidebar-background",
+        className
+      )}
+      {...props}
+    >
       <div className="flex h-full max-h-screen flex-col gap-2">
-        <div className="flex h-[60px] items-center border-b px-6 justify-between">
+        <div className="flex h-[60px] items-center border-b px-6">
           <Link
             className="flex items-center gap-2 font-semibold"
             href="/dashboard"
           >
-            <span className="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
-              LeonAI
-            </span>
+            <span className="text-sidebar-foreground">LeonAI</span>
           </Link>
-          <DarkToggle />
         </div>
         <ScrollArea className="flex-1 overflow-auto">
           <div className="flex flex-col gap-2 p-4">

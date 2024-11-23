@@ -10,6 +10,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useState } from "react";
 
 interface ClientUsage {
@@ -148,26 +154,61 @@ export function ClientUsageMetrics() {
             <TableBody>
               {clientUsage.map((client) => (
                 <TableRow key={client.id}>
-                  <TableCell className="font-medium">{client.name}</TableCell>
+                  <TableCell className="font-medium">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger className="truncate max-w-[150px]">
+                          {client.name}
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{client.name}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </TableCell>
                   <TableCell>{client.totalUsage.toLocaleString()}</TableCell>
                   <TableCell>{calculateCost(client.totalUsage)}</TableCell>
                   <TableCell>
-                    <Badge variant="outline">{client.mostUsedPersona}</Badge>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger className="truncate max-w-[150px]">
+                          <Badge variant="outline" className="p-1">
+                            {client.mostUsedPersona}
+                          </Badge>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{client.mostUsedPersona}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     {client.averageResponseTime.toFixed(1)}s
                   </TableCell>
-                  <TableCell>{client.satisfactionRate}%</TableCell>
+                  <TableCell align="center">
+                    {client.satisfactionRate}%
+                  </TableCell>
                   <TableCell>{formatDate(client.lastActive)}</TableCell>
-                  <TableCell>{client.totalConversations}</TableCell>
+                  <TableCell align="center">
+                    {client.totalConversations}
+                  </TableCell>
                   <TableCell>
-                    <ul className="list-disc pl-4">
-                      {client.topQuestions.map((question, index) => (
-                        <li key={index} className="text-sm">
-                          {question}
-                        </li>
-                      ))}
-                    </ul>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger className="truncate max-w-[200px]">
+                          {client.topQuestions[0]}
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <ul className="list-disc pl-4">
+                            {client.topQuestions.map((question, index) => (
+                              <li key={index} className="text-sm">
+                                {question}
+                              </li>
+                            ))}
+                          </ul>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </TableCell>
                 </TableRow>
               ))}
